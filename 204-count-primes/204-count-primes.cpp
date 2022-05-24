@@ -15,6 +15,7 @@ public:
         }
     }
     int countPrimes(int n) {
+        if(n<3) return 0;
         int cnt=0;
         seive(n, primes);
         for(int i=0; i<n; i++)
