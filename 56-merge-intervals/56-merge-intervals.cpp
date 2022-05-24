@@ -7,22 +7,19 @@ public:
         sort(v.begin(), v.end());
         vector<vector<int>> res;
         res.push_back(v[0]);
-        int j=0, l=v[0][0], r=v[0][1];
+        int j=0;
         
         for(int i=1; i<n; i++)
         {
             int x = v[i][0], y = v[i][1];
-            if(r>=x)
+            if(res[j][1] >= v[i][0])
             {
-                res[j][0] = l;
-                res[j][1] = max(r, y);
-                r=max(r, y);
+                res[j][1] = max(res[j][1], v[i][1]);
             }
             else 
             {
                 j++;
                 res.push_back(v[i]);
-                l=v[i][0], r=v[i][1];
             }
         }
         
