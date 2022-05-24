@@ -5,8 +5,8 @@ public:
     int help(int i, int tar, vector<int> &sq)
     {
         if(tar<0 or i>=sq.size())  return INT_MAX-1;
-        if(dp[i][tar] != -1)  return dp[i][tar];
         if(tar == 0)    return 0;
+        if(dp[i][tar] != -1)  return dp[i][tar];
         
         int take = INT_MAX;
         if(sq[i]<=tar)  take = help(i, tar-sq[i], sq) + 1;
