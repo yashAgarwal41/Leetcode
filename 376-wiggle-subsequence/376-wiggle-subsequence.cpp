@@ -1,45 +1,27 @@
 class Solution {
 public:
-    //sign-> 0:+, 1:-
-    int dp[1001][1001][3];
-    int help(int i, int prev, int sign, vector<int> &v)
-    {
-        if(i>=v.size()) return 0;
-        if(prev!=-1 and dp[i][prev][sign]!=-1)  return dp[i][prev][sign];
-        
-        int take = INT_MIN;
-        if(prev==-1 or sign==2 or v[i]-v[prev]!=0)
-        {
-            //not chosen a single element..
-            if(prev == -1)
-            {
-                take = help(i+1, i, sign, v) + 1;
-            }
-            else if(v[i]-v[prev]!=0)
-            {   
-                //if choosen only single element..
-                if(sign==2)
-                {
-                    sign = v[i]-v[prev]>0 ? 1 : 0;
-                    take = help(i+1, i, sign, v) + 1;
-                }
-                //if chosen multiple elements till now..
-                else 
-                {
-                    char newSign = v[i]-v[prev]>0 ? 1 : 0;
-                    if(sign!=newSign)
-                        take = help(i+1, i, newSign, v) + 1;
-                }
-            }
-        }
-        
-        int notTake = help(i+1, prev, sign, v);
-        if(prev==-1)   return max(take, notTake);
-        else return dp[i][prev][sign] = max(take, notTake);
-    }
+    //DP..TC-O(n), SC-O(n)..
     int wiggleMaxLength(vector<int>& v) {
         int n=v.size();
-        memset(dp, -1, sizeof dp);
-        return help(0, -1, 2, v);
+        vector<int> dp(n, -1);
+        //dp will contain the upward peak or downward peak or constant peak..
+        for(int i=0; i<n-1; i++)
+        {
+            if(v[i+1]>v[i]) dp[i] = 1;  //upward peak
+            else if(v[i+1]<v[i])    dp[i]=0;    //downward peak
+            else dp[i] = -1;    //constant peak(equal elements)
+        }
+        int ans=0, prev=-1;
+        for(int i=0; i<n-1; i++)
+        {
+            if(dp[i]==-1)   continue;   //equal elements..
+            int curr = dp[i];   
+            if(curr!=prev)  //peak direction changed..meand sign changed..
+            {
+                ans++;
+                prev=curr; 
+            }
+        }
+        return ans+1;
     }
 };
