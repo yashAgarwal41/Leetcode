@@ -1,19 +1,20 @@
 class Solution {
 public:
+    //2 pointers..
     vector<int> twoSum(vector<int>& v, int target) {
-        unordered_map<int, int> m;
+        int l=0, r=v.size()-1;
         vector<int> res;
-        for(int i=0; i<v.size(); i++)
+        while(l<r)
         {
-            int val2 = target-v[i];
-            auto it = m.find(val2);
-            if(it==m.end()) m[v[i]] = i;
-            else
+            if(v[l] + v[r] == target)
             {
-                res.push_back(it->second+1);
-                res.push_back(i+1);
+                res.push_back(l+1);
+                res.push_back(r+1);
                 break;
             }
+            else if(v[l] + v[r] > target)
+                r--;
+            else l++;
         }
         return res;
     }
