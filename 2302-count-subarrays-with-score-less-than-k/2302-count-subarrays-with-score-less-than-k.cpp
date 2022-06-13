@@ -5,11 +5,11 @@ public:
         int n=v.size();
         int i=0, j=0;
         long long ans = 0, sum=0;
-        while(j<n)
+        while(i<n and j<n)
         {
             sum+=v[j];
             long long prod = 1LL * sum * (j-i+1);
-            while(prod>=k)
+            while(i<n and prod>=k)
             {
                 sum -= v[i];
                 i++;
