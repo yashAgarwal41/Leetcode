@@ -1,28 +1,32 @@
 class Solution {
 public:
+    //Sliding window..TC-O(n)
+    //We have to find the max size subarray that sums = totalSum-x;
+    //So use sliding window to calculate that subarray and update maxi
+    //e.g v = [2, 3, 1, {2, 4}, 3]  x = 9, totSum = 15
+    // so new target = 15-9=6..Find maximumSize subarray with sum 6
+    //So it become standard problem- Subarray Sums Equals 'k' (v[i]>0, so use sliding window)..
+                    
     int minOperations(vector<int>& v, int x) {
-        int n = v.size();
-        //prefixSum and suffixSum..
-        //If at any point, ps[i] + ss[j] = x, then update the minimum value...
-        vector<int> ps(n+1, 0), ss(n+1, 0);
-        for(int i=1; i<=n; i++)
-            ps[i] = ps[i-1] + v[i-1];
-        
-        for(int i=n-1; i>=0; i--)
-            ss[i] = ss[i+1] + v[i];
-        reverse(ss.begin(), ss.end());
-        
-        int mini=INT_MAX;
-        for(int i=0; i<=n; i++)
+        long long n=v.size(), tot=0;
+        for(auto &i:v)  tot+=i;
+        long long target = tot-x, i=0, j=0;
+        long long maxi = -1, sum=0;
+        while(i<n and j<n)
         {
-            int sum2 = x - ps[i];
-            if(sum2<0)  continue;
-            
-            int j = lower_bound(ss.begin(), ss.end(), sum2) - ss.begin();
-            if(j <= n-i and ss[j] == sum2)
-                mini = min(mini, i+j);
+            sum += v[j];
+            while(i<n and sum > target)
+            {
+                sum-=v[i];
+                i++;
+            }
+            if(sum==target)
+            {
+                maxi = max(maxi, j-i+1);
+            }
+            j++;
         }
-        
-        return mini == INT_MAX ? -1 : mini;
+        if(maxi == -1)  return -1;
+        else return n-maxi;
     }
 };
