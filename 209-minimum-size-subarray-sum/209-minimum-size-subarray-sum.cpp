@@ -7,15 +7,13 @@ public:
         while(r<n)
         {
             sum+=v[r];
-            if(sum>=target)
+            while(sum>=target)
             {
-                while(sum>=target)
-                {
-                    sum-=v[l];
-                    l++;
-                }
-                mini = min(mini, r-l+2);
+                mini = min(mini, r-l+1);
+                sum-=v[l];
+                l++;
             }
+            
             r++;
         }
         return mini == INT_MAX ? 0 : mini;
