@@ -12,21 +12,19 @@
 class Solution {
 public:
     //DFS..
-    int res = 0;
-    void dfs(TreeNode* root, string s)
+    int dfs(TreeNode* root, string s)
     {
-        if(root==NULL)  return;
+        if(root==NULL)  return 0;
         if(!root->left and !root->right)    //Leaf Node
         {
             string temp = s + to_string(root->val);
-            res += stoi(temp);
-            return;
+            return stoi(temp);
         }
-        dfs(root->left, s + to_string(root->val));
-        dfs(root->right, s + to_string(root->val));
+        int left = dfs(root->left, s + to_string(root->val));
+        int right = dfs(root->right, s + to_string(root->val));
+        return left + right;
     }
     int sumNumbers(TreeNode* root) {
-        dfs(root, "");
-        return res;
+        return dfs(root, "");
     }
 };
