@@ -3,19 +3,18 @@ public:
     //priority Queue, TC-O(n)..
     static bool compare(vector<int> v1, vector<int> v2)
     {
-        if(v1[1]==v2[1])    return v1[0]<v2[0];
         return v1[1]<v2[1];
     }
     int scheduleCourse(vector<vector<int>>& courses) {
         int n = courses.size();
         sort(courses.begin(), courses.end(), compare);
         priority_queue<int> pq;
-        int day = 0, ans=0;
+        int day = 0;
+        
         for(auto &v: courses)
         {
             if(v[0] + day <= v[1])
             {
-                ans++;
                 day += v[0];
                 pq.push(v[0]);
             }
@@ -33,6 +32,6 @@ public:
                 }
             }
         }
-        return ans;
+        return pq.size();
     }
 };
