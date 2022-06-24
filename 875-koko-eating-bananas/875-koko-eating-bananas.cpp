@@ -3,7 +3,7 @@ public:
     //Binary Search..
     int minEatingSpeed(vector<int>& piles, int h) {
         
-        long long low = 1, high = 1e14, mini = INT_MAX;
+        long long low = 1, high = 1e9, mini = INT_MAX;  //high = *max_element(piles)..
         while(low<=high)
         {
             long long mid = low + (high-low)/2;
