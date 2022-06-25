@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //TC-O(n+e), SC-O(n+e)..
     bool dfs(int i, vector<int> &color, vector<vector<int>> &graph)
     {
         if(color[i]==-1)    color[i]=0; //starting with color 0..
