@@ -1,27 +1,20 @@
 class Solution {
 public:
-    //Using BFS..
-    bool bfs(int i, vector<int> &color, vector<vector<int>> &graph)
+    bool dfs(int i, vector<int> &color, vector<vector<int>> &graph)
     {
-        color[i] = 0;   //starting with color 0..
-        queue<int> q;
-        q.push(i);
-        while(!q.empty())
+        if(color[i]==-1)    color[i]=0; //starting with color 0..
+        for(auto &j:graph[i])
         {
-            int node = q.front();
-            q.pop();
-            for(auto j : graph[node])
+            if(color[j] == -1)  //if not visited
             {
-                if(color[j]==-1)
-                {
-                    color[j] = color[node]^1;   //giving the node adjacents the opposite color..
-                    q.push(j);
-                }
-                else 
-                {
-                    if(color[j] == color[node])    //else if already visited, then check their colors..
-                        return false;
-                }
+                color[j] = 1^color[i];  //coloring non-visited adjacents with oppposite color
+                if(!dfs(j, color, graph))
+                    return false;
+            }
+            else //if already visited(colored)..
+            {
+                if(color[i] == color[j])    //if have same color, return false..
+                    return false;
             }
         }
         return true;
@@ -33,7 +26,7 @@ public:
         {
             if(color[i]==-1)
             {
-                if(!bfs(i, color, graph)) 
+                if(dfs(i, color, graph) == false)   
                     return false;
             }
         }
