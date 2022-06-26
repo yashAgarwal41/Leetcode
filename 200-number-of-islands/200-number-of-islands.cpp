@@ -1,10 +1,10 @@
 class Solution {
 public:
-    //TC-O(n*m), SC-O(1)..Mark visited land as '2' in grid itself..
+    //DFS  TC-O(n*m), SC-O(1)..Mark visited land as '2' in grid itself..
     int n, m;
     void dfs(int i, int j, vector<vector<char>> &grid)
     {
-        if(i<0 or j<0 or i>=n or j>=m or grid[i][j]=='0' or grid[i][j]=='0' or grid[i][j]=='2')  return;
+        if(i<0 or j<0 or i>=n or j>=m or grid[i][j]=='0' or grid[i][j]=='2')  return;
         grid[i][j]='2';
         dfs(i-1, j, grid);
         dfs(i+1, j, grid);
