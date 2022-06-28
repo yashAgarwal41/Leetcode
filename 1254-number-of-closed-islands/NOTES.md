@@ -1,0 +1,7 @@
+* IMPORTANT NOTE:
+WHY we CANNOT USE
+`dfs(i-1,j,grid) && dfs(i+1,j,grid) && dfs(i,j-1,grid) && dfs(i,j+1,grid);`
+???
+BECAUSE IF ANY OF THE FIRST DFS() RETURNS FALSE, FOLLOWING ONES WILL NOT EXECUTE!!! THEN WE DON'T
+HAVE THE CHANCE TO MARK THOSE 0s TO 2s!!!
+*/
