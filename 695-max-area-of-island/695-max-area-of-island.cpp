@@ -1,18 +1,19 @@
 class Solution {
 public:
     int n, m;
-    void dfs(int i, int j, vector<vector<int>> &grid, int &count)
+    int dfs(int i, int j, vector<vector<int>> &grid)
     {
-        if(i<0 or j<0 or i>=n or j>=m or grid[i][j]==0 or grid[i][j]==2)  return;
+        if(i<0 or j<0 or i>=n or j>=m or grid[i][j]==0 or grid[i][j]==2)  
+            return 0;
         
-        count++;
         grid[i][j] = 2;
-        dfs(i-1, j, grid, count);
-        dfs(i+1, j, grid, count);
-        dfs(i, j-1, grid, count);
-        dfs(i, j+1, grid, count);
+        int ans = 1;
+        ans += dfs(i-1, j, grid);
+        ans += dfs(i+1, j, grid);
+        ans += dfs(i, j-1, grid);
+        ans += dfs(i, j+1, grid);
         
-        // return d1 + d2 + d3 + d4;
+        return ans;
     }
     int maxAreaOfIsland(vector<vector<int>>& grid) {
         n = grid.size(), m = grid[0].size();
@@ -23,9 +24,7 @@ public:
             {
                 if(grid[i][j]==1)
                 {
-                    int count=0;
-                    dfs(i, j, grid, count);
-                    maxi = max(maxi, count);
+                    maxi = max(maxi, dfs(i, j, grid));
                 }   
             }
         }
