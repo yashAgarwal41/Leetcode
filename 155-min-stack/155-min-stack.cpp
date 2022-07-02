@@ -1,31 +1,33 @@
 class MinStack {
 public:
-    stack<int> st;
-    map<int, int> map;
-    
+    //TC-O(1) for all functions..
+    stack<pair<int, int>> st;
     MinStack() {
+        
     }
     
     void push(int val) {
-        st.push(val);
-        map[val]++;
+        if(st.empty())
+        {
+            st.push({val, val});
+        }
+        else 
+        {
+            int mini = min(val, st.top().second);
+            st.push({val, mini});
+        }
     }
     
-    void pop() {
-        int val = st.top();
+    void pop() {    
         st.pop();
-        map[val]--;
-        if(map[val]==0)
-            map.erase(val);     //TC-O(logn)..
     }
     
     int top() {
-        return st.top();
+        return st.top().first;
     }
     
     int getMin() {
-        auto it = map.begin();
-        return it->first;
+        return st.top().second;
     }
 };
 
