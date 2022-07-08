@@ -1,6 +1,6 @@
 class Solution {
 public:
-    //Memoization..TC-O(m*n*target)...
+    //Memoization..TC-O(m*n*target*n)...
     int dp[101][21][101];
     int help(int i, int prev, int target, vector<int> &houses, vector<vector<int>> &cost, int &m, int &n)
     {
