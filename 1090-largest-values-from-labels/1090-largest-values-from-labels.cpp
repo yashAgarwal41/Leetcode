@@ -13,16 +13,7 @@ public:
         int ans=0;
         for(auto &it : vp)
         {
-            if(map.count(it.second))
-            {
-                if(map[it.second]<useLimit)
-                {
-                    ans += it.first;
-                    map[it.second]++;
-                    numWanted--;
-                }
-            }
-            else 
+            if(map[it.second]<useLimit)
             {
                 ans += it.first;
                 map[it.second]++;
