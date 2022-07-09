@@ -13,21 +13,21 @@ public:
         int ans=0;
         for(auto &it : vp)
         {
-            // if(map.count(it.second))
-            // {
+            if(map.count(it.second))
+            {
                 if(map[it.second]<useLimit)
                 {
                     ans += it.first;
                     map[it.second]++;
                     numWanted--;
                 }
-            // }
-            // else 
-            // {
-            //     ans += it.first;
-            //     map[it.second]++;
-            //     numWanted--;
-            // }
+            }
+            else 
+            {
+                ans += it.first;
+                map[it.second]++;
+                numWanted--;
+            }
             if(numWanted==0)    break;
         }
         return ans;
