@@ -28,6 +28,7 @@ public:
         int sum = accumulate(v.begin(), v.end(), 0);
         if(sum%4)   return false;
         
+        sort(v.begin(), v.end());   //sorting make it faster..
         int target = sum/4; //length of 1 side..
         vector<int> vis(n, 0);
         return dfs(0, 0, target, 4, vis, v);
