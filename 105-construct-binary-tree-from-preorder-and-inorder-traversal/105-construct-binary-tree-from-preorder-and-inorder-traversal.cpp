@@ -17,7 +17,7 @@ public:
     
     TreeNode* help(int inL, int inR, int preL, int preR, vector<int> &inorder, vector<int> &preorder)
     {
-        if(preL>preR or inL>inR or preL<0 or inL<0 or preR>=n or inR>=n)  return NULL;
+        if(preL>preR or inL>inR)  return NULL;
         
         TreeNode* root = new TreeNode(preorder[preL]);
         int rootPos = map[preorder[preL]];  //position of root in inorder array..
