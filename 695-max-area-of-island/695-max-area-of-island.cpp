@@ -7,13 +7,13 @@ public:
             return 0;
         
         grid[i][j] = 2;
-        int ans = 1;
+        int ans = 0;
         ans += dfs(i-1, j, grid);
         ans += dfs(i+1, j, grid);
         ans += dfs(i, j-1, grid);
         ans += dfs(i, j+1, grid);
         
-        return ans;
+        return 1 + ans;
     }
     int maxAreaOfIsland(vector<vector<int>>& grid) {
         n = grid.size(), m = grid[0].size();
