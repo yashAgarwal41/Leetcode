@@ -7,21 +7,18 @@ public:
         
         for(int i=0; i<n-1; i++)
         {
-            unordered_map<char, int> freq;
-            freq[s[i]]++;
+            int freq[26] = {0};
+            freq[s[i]-'a']++;
             for(int j=i+1; j<n; j++)
             {
-                freq[s[j]]++;
-                if(freq.size()>=2)
+                freq[s[j]-'a']++;
+                int mini = INT_MAX, maxi = INT_MIN;
+                for(int k=0; k<26; k++)
                 {
-                    int mini=INT_MAX, maxi=INT_MIN;
-                    for(auto &it:freq)
-                    {
-                        mini = min(mini, it.second);
-                        maxi = max(maxi, it.second);
-                    }
-                    ans += maxi-mini;
+                    if(freq[k]) mini = min(mini, freq[k]);
+                    if(freq[k]) maxi = max(maxi, freq[k]);
                 }
+                ans += maxi-mini;
             }
         }
         return ans;
