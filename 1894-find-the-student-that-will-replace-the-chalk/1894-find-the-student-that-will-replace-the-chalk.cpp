@@ -1,16 +1,14 @@
 #define ll long long
 class Solution {
 public:
-    //Check the remainder of k with suffix sum...
     int chalkReplacer(vector<int>& chalk, int k) {
         int n = chalk.size();
-        ll sum = accumulate(chalk.begin(), chalk.end(), 0LL);   //suffixSum..
+        ll sum = accumulate(chalk.begin(), chalk.end(), 0LL);
+        k %= sum;
         for(int i=0; i<n; i++)
         {
-            if(chalk[i] > k)  return i;
-            int rem = k%sum;
-            if(chalk[i] > rem) return i;
             k -= chalk[i];
+            if(k<0)  return i;
         }
         return -1;
     }
