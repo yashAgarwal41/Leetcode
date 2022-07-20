@@ -1,22 +1,15 @@
 class Solution {
 public:
-    //
+    //Map-TC-O(5000*50*logn)
     int numMatchingSubseq(string s, vector<string>& words) {
         int n = s.size(), ans=0;
-        map<char, set<int>> map;
+        unordered_map<char, set<int>> map;
         for(int i=0; i<n; i++)
-        {
             map[s[i]].insert(i);
-        }
-        // for(auto &it:map)
-        // {
-        //     cout<<it.first<<"-> ";
-        //     for(auto it2:it.second) cout<<it2<<" ";
-        //     cout<<endl;
-        // }
+        
         for(auto &str : words)
         {
-            int m = str.size(), j=-1;
+            int j=-1;
             bool found = true;
             for(int i=0; i<str.size(); i++)
             {
