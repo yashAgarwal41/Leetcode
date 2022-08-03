@@ -7,7 +7,7 @@ public:
             return sum==target;
         
         if(sum>=0 and dp[i][sum]!=-1)   return dp[i][sum];
-        if(sum<0 and dp[i][1000-sum]!=-1)   return dp[i][sum];
+        // if(sum<0 and dp[i][1000-sum]!=-1)   return dp[i][sum];
         
         int add = help(i-1, sum+v[i], target, v);
         int sub = help(i-1, sum-v[i], target, v);
