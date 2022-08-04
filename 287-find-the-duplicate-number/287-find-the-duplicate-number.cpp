@@ -1,20 +1,20 @@
 class Solution {
 public:
-    //Binary Search..TC-O(nlogn), SC-O(1), without modifying
+    //Slow-fast pointer..TC-O(n), without modifying array..
     int findDuplicate(vector<int>& nums) {
-        int n = nums.size();
-        int low=1, high=n;
-        while(low<high)
+        int slow=0, fast=0;
+        do
         {
-            int mid = low+(high-low)/2;
-            int cnt=0;
-            for(auto &it:nums)  cnt += it<=mid;
-            if(cnt<=mid)    
-            {
-                low=mid+1;
-            }
-            else high=mid;
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }while(slow!=fast);
+            
+        int head=0, meet = slow;
+        while(head!=meet)
+        {
+            head = nums[head];
+            meet = nums[meet];
         }
-        return low;
+        return head;
     }
 };
