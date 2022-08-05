@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //TC-O(n+m), SC-O(1)..
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
         int n=matrix.size(), m = matrix[0].size();
         int i = 0, j = m-1;
