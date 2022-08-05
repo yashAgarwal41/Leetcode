@@ -1,15 +1,19 @@
 class Solution {
 public:
-    //TC-O(n+m), SC-O(1)..
+    //BinarySerach..TC-O(log(n*m))..SC-O(1)..
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int n=matrix.size(), m = matrix[0].size();
-        int i = 0, j = m-1;
-        while(i<n and j>=0)
+        int n = matrix.size(), m = matrix[0].size();
+        int low=0, high = m*n-1;
+        while(low<=high)
         {
-            if(matrix[i][j]==target)    return true;
-            if(matrix[i][j]>target) j--;
-            else i++;
+            int mid = low+(high-low)/2;
+            int r=mid/m, c=mid%m;
+            if(matrix[r][c] == target)    return true;
+            if(matrix[r][c] < target)
+                low = mid+1;
+            else high = mid-1;
         }
         return false;
+        
     }
 };
