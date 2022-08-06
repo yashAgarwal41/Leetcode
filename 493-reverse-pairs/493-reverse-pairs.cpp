@@ -4,17 +4,25 @@ public:
     int mergeSort(int low, int high, vector<int> &v)
     {
         int mid = low+(high-low)/2, cnt=0;
-        int i, j=mid+1, k=0;
+        int i=low, j=mid+1, k=0;
         vector<int> temp(high-low+1);
         
         //First count the no of pairs..
-        for(int i=low; i<=mid; i++)
+//         for(int i=low; i<=mid; i++)
+//         {
+//             while(j<=high and v[i]>2LL*v[j])
+//                 j++;
+//             cnt += j-(mid+1);
+//         }
+        while(i<=mid and j<=high)
         {
-            while(j<=high and v[i]>2LL*v[j])
+            if(v[i]>2LL*v[j]) 
+            {
+                cnt+=mid-i+1;
                 j++;
-            cnt += j-(mid+1);
+            }
+            else i++;
         }
-        
         //Nw merge Sort..
         i=low, j=mid+1;
         while(i<=mid and j<=high)
