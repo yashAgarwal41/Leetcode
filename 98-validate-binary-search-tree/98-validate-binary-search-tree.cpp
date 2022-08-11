@@ -11,13 +11,13 @@
  */
 class Solution {
 public:
-    bool help(TreeNode* root, long mini, long maxi)
+    bool help(TreeNode* root, long min, long max)
     {
         if(root==NULL)  return true;
-        if(!(root->val > mini and root->val < maxi))   return false;
+        if(root->val <= min or root->val >= max)    return false;
         
-        bool l = help(root->left, mini, root->val);
-        bool r = help(root->right, root->val, maxi);
+        bool l = help(root->left, min, root->val);
+        bool r = help(root->right, root->val, max);
         
         return l and r;
     }
