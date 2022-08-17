@@ -1,14 +1,26 @@
 class Solution {
 public:
+    //Iterative, TC-O(n*n)
     string getPermutation(int n, int k) {
-        string s="";
-        for(int i=1; i<=n; i++) s+=(i+'0');
-        
         k--;
-        while(k--)
+        int nfact = 1;
+        vector<int> nums;
+        for(int i=1; i<=n; i++)
         {
-            next_permutation(s.begin(), s.end());
+            nums.push_back(i);
+            nfact *= i;
         }
-        return s;
+        
+        int part = nfact/n;
+        string ans="";
+        for(int i=0; i<n; i++)
+        {
+            ans += to_string(nums[k/part]);
+            nums.erase(nums.begin() + k/part);
+            if(nums.size()==0)  break;
+            k = k%part;
+            part = part/nums.size();
+        }
+        return ans;
     }
 };
