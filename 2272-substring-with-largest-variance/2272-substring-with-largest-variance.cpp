@@ -17,6 +17,9 @@ public:
                     if(c==p)    pCnt++;
                     if(c==q)    qCnt++;
                     
+                    //mark the qSeen as 1
+                    if(qCnt>0)  qSeen=1;
+                    
                     if(pCnt > qCnt)
                     {
                         //at least 1 q should be there in substring..
@@ -26,11 +29,11 @@ public:
                         else if(qCnt == 0 and qSeen == 1)    
                             maxi = max(maxi, pCnt - 1);
                     }
-                    //else reset them with 0 and mark the qSeen as 1
+                    //else reset them with 0 
                     else if(qCnt > pCnt)
                     {
                         pCnt=0, qCnt=0;
-                        qSeen=1;
+                        // qSeen=1;
                     }
                 }
             }
