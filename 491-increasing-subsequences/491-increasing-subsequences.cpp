@@ -2,21 +2,21 @@ class Solution {
 public:
     //Recursion-Backtracking, TC-O(2^n)*n
     int n;
-    set<vector<int>> set;
     void help(int i, vector<int> &nums, vector<int> &subseq, vector<vector<int>> &res)
     {
-        if(subseq.size()>1) 
-            set.insert(subseq);
-            // res.push_back(subseq);
+        if(subseq.size()>1) res.push_back(subseq);
         if(i==n)    return;
         
+        unordered_set<int> set; //to avoid duplicates subsequences..
         for(int j=i; j<n; j++)
         {
+            if(set.find(nums[j]) != set.end())  continue;   //if same num is already taken..
             if(subseq.size()==0 or subseq.back() <= nums[j])
             {
-                subseq.push_back(nums[j]);
+                set.insert(nums[j]);
+                subseq.push_back(nums[j]);  //push
                 help(j+1, nums, subseq, res);
-                subseq.pop_back();
+                subseq.pop_back();  //backtrack
             }
         }
     }
@@ -25,7 +25,6 @@ public:
         vector<int> subseq;
         vector<vector<int>> res;
         help(0, nums, subseq, res);
-        for(auto &v:set)    res.push_back(v);
         return res;
     }
 };
