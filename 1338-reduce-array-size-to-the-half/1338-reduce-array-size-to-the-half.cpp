@@ -3,19 +3,18 @@ public:
     //Remove Integers with max Frequency, TC-O(nlogn), SC-O(n)
     int minSetSize(vector<int>& arr) {
         int n = arr.size();
+        priority_queue<int> pq;
         unordered_map<int, int> map;
         for(auto it:arr)    map[it]++;
-        vector<int> freq;
-        for(auto &it:map)
-            freq.push_back(it.second);
-        sort(freq.begin(), freq.end());
+        for(auto it:map)    pq.push(it.second);
         
-        int cnt=0, ans=0;
-        for(int i=freq.size()-1; i>=0; i--)
+        int ans=0, cnt=0;
+        while(!pq.empty())
         {
+            cnt += pq.top();
             ans++;
-            cnt += freq[i];
             if(cnt>=n/2)    break;
+            pq.pop();
         }
         return ans;
     }
