@@ -1,49 +1,55 @@
 class Solution {
 public:
-    //BackTracking..
-    bool isSafe(int r, int c, int n, vector<string> &ans)
+    bool canPlace(int r, int c, vector<string> &board)
     {
-        //checking in row...
-        for(int i=0; i<c; i++)
-        {
-            if(ans[r][i] == 'Q')    return false;
-        }
-        //upperleft diagonal...
-        int i=r-1, j=c-1;
+        //upperLeft Diagonal..
+        int i=r, j=c;
         while(i>=0 and j>=0)
         {
-            if(ans[i--][j--]=='Q')  return false;
+            if(board[i--][j--] == 'Q')  return false;
         }
-        //lowerleft diagonal...
-        i=r+1, j=c-1;
-        while(i<n and j>=0)
+        
+        //leftRow..
+        i=r, j=c;
+        while(j>=0)
         {
-            if(ans[i++][j--]=='Q')  return false;
+            if(board[i][j--] == 'Q')  return false;
         }
+        
+        //lowerLeft Diagonal..
+        i=r, j=c;
+        while(i<board.size() and j>=0)
+        {
+            if(board[i++][j--] == 'Q')  return false;
+        }
+        
         return true;
     }
-    void help(int c, int n, vector<string> &ans, vector<vector<string>> &res)
+    void help(int j, int n, vector<string> &board, vector<vector<string>> &res)
     {
-        if(c>=n)
+        if(j==n)
         {
-            res.push_back(ans);
-            return ;
+            res.push_back(board);
+            return;
         }
-        for(int r=0; r<n; r++)
+        
+        for(int i=0; i<n; i++)
         {
-            if(isSafe(r, c, n, ans))
+            if(canPlace(i, j, board))
             {
-                ans[r][c] = 'Q';
-                help(c+1, n, ans, res);
-                ans[r][c] = '.';
+                board[i][j] = 'Q';
+                help(j+1, n, board, res);
+                board[i][j] = '.';
             }
         }
     }
     vector<vector<string>> solveNQueens(int n) {
-        string s(n, '.');
-        vector<string> ans(n, s);
+        string level(n, '.');
+        vector<string> board(n, level);
         vector<vector<string>> res;
-        help(0, n, ans, res);
+        
+        help(0, n, board, res);
+        
         return res;
     }
 };
