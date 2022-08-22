@@ -1,37 +1,38 @@
 class Solution {
 public:
-    int n;
+    //DFS + Backtracking..
     unordered_map<string, vector<pair<string, double>>> graph;
     
     bool dfs(string &p, string &q, unordered_map<string, int> &vis, double &ans)
     {
+        vis[p] = 1;
+        //check all children nodes..
         for(auto &v:graph[p])
         {
-            string s = v.first;
+            string node = v.first;
             double val = v.second;
-            if(vis.find(s) == vis.end())
+            if(vis.find(node) == vis.end())
             {
-                vis[s] = 1;
-                ans*=val;
+                ans *= val;
                 
-                if(s == q)  
+                if(node == q)  //if found..
                 {
-                    // ans *= val;
                     return true;
                 }
                 else 
                 {
-                    if(dfs(s, q, vis, ans))
+                    if(dfs(node, q, vis, ans))
                         return true;
-                    else ans /= val;
+                    else ans /= val;    //backtrack
                 }
             }
         }
-        return false;
+        return false;   //if they are not mapped in the same graph component..
     }
     
-    vector<double> calcEquation(vector<vector<string>>& eq, vector<double>& values, vector<vector<string>>& que) {
-        n = eq.size();
+    vector<double> calcEquation(vector<vector<string>>& eq, vector<double>& values, vector<vector<string>>& que) 
+    {
+        int n = eq.size();
         
         for(int i=0; i<n; i++)
         {
@@ -39,30 +40,28 @@ public:
             graph[eq[i][1]].push_back({eq[i][0], 1.0/values[i]});
         }
         
-//         for(auto it:graph)
-//         {
-//             cout<<it.first<<"->";
-//             for(auto j:it.second)
-//             {
-//                 cout<<"("<<j.first<<","<<j.second<<"), ";
-//             }
-//             cout<<endl;
-//         }
-        
         vector<double> res;
         for(int i=0; i<que.size(); i++)
         {
-            double ans = 1;
-            if(que[i][0] == que[i][1] and graph.find(que[i][0])!=graph.end())
+            if(graph.find(que[i][0]) == graph.end() or graph.find(que[i][1]) == graph.end())
             {
-                res.push_back(ans);
+                res.push_back(-1);
                 continue;
             }
-            unordered_map<string, int> vis;
-            vis[que[i][0]] = 1;
-            bool chk = dfs(que[i][0], que[i][1], vis, ans);
-            if(chk) res.push_back(ans);
-            else res.push_back((double)-1);
+            else if(que[i][0] == que[i][1])
+            {
+                res.push_back(1);
+                continue;
+            }
+            else 
+            {
+                double ans = 1;
+                unordered_map<string, int> vis;
+                bool found = dfs(que[i][0], que[i][1], vis, ans);   //call dfs..
+                if(found) res.push_back(ans);
+                else res.push_back(-1);
+            }
+            
         }
         return res;
     }
