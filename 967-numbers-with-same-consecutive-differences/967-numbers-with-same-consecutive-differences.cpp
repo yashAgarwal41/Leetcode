@@ -2,11 +2,10 @@ class Solution {
 public:
     //Backtracking..
     int n;
-    void help(int i, int n, int k, string ans, vector<int> &res)
+    void help(int i, int n, int k, int num, vector<int> &res)
     {
         if(i>=n)
         {
-            int num = stoi(ans);
             res.push_back(num);
             return;
         }
@@ -15,19 +14,18 @@ public:
         {
             if(i==0 and j==0)   continue;
             if(i==0)
-                help(i+1, n, k, ans + to_string(j), res);
+                help(i+1, n, k, j, res);
             else 
             {
-                int prev = ans[i-1] - '0';
+                int prev = num%10;
                 if(abs(j - prev) == k)
-                    help(i+1, n, k, ans + to_string(j), res);
+                    help(i+1, n, k, num*10 + j, res);
             }
         }
     }
     vector<int> numsSameConsecDiff(int n, int k) {
-        string ans = "";
         vector<int> res;
-        help(0, n, k, ans, res);
+        help(0, n, k, 0, res);
         return res;
     }
 };
