@@ -1,41 +1,22 @@
 class Solution {
 public:
-    //Tc-O(m*k*logk) + O(n*k*logk).. where k->max(n, m)..
-    //Sc-O(k)..
+    //TC-O(m*n*log(max(n, m)))...
     vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
         int n = mat.size(), m = mat[0].size();
-        
-        //from 1st row..
-        for(int j=m-1; j>=0; j--)
+        unordered_map<int, priority_queue<int, vector<int>, greater<int>>> map;
+        for(int i=0; i<n; i++)
         {
-            int r=0, c=j;
-            priority_queue<int, vector<int>, greater<int>> pq;
-            while(r<n and c<m)
+            for(int j=0; j<m; j++)
             {
-                pq.push(mat[r++][c++]);
-            }
-            r=0, c=j;
-            while(r<n and c<m)
-            {
-                mat[r++][c++] = pq.top();
-                pq.pop();
+                map[i-j].push(mat[i][j]);
             }
         }
-        
-        //from 1st column.
-        for(int i=1; i<n; i++)
+        for(int i=0; i<n; i++)
         {
-            int r=i, c=0;
-            priority_queue<int, vector<int>, greater<int>> pq;
-            while(r<n and c<m)
+            for(int j=0; j<m; j++)
             {
-                pq.push(mat[r++][c++]);
-            }
-            r=i, c=0;
-            while(r<n and c<m)
-            {
-                mat[r++][c++] = pq.top();
-                pq.pop();
+                mat[i][j] = map[i-j].top();
+                map[i-j].pop();
             }
         }
         return mat;
