@@ -1,6 +1,6 @@
 class Solution {
 public:
-    //TC-O(m*n*log(max(n, m)))...
+    //TC-O(m*n*log(min(n, m)))...
     vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
         int n = mat.size(), m = mat[0].size();
         unordered_map<int, priority_queue<int, vector<int>, greater<int>>> map;
