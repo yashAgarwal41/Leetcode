@@ -1,28 +1,44 @@
 class Solution {
 public:
-    //DFS  TC-O(n*m), SC-O(1)..Mark visited land as '2' in grid itself..
-    int n, m;
-    void dfs(int i, int j, vector<vector<char>> &grid)
+    //BFS..
+    int arr[4] = {-1, 1, 0, 0};
+    int n, m; 
+    void bfs(int i, int j, vector<vector<int>> &vis, vector<vector<char>> &grid)
     {
-        if(i<0 or j<0 or i>=n or j>=m or grid[i][j]=='0' or grid[i][j]=='2')  return;
-        grid[i][j]='2';
-        dfs(i-1, j, grid);
-        dfs(i+1, j, grid);
-        dfs(i, j-1, grid);
-        dfs(i, j+1, grid);
-        return;
+        queue<pair<int, int>> q;
+        q.push({i, j}); //starting node..
+        vis[i][j] = 1;
+        
+        while(!q.empty())
+        {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            
+            for(int k=0; k<4; k++)
+            {
+                int l = x+arr[k], r = y+arr[3-k];
+                if(l<0 or r<0 or l>=n or r>=m or vis[l][r]==1 or grid[l][r]=='0') continue;
+                else
+                {
+                    vis[l][r] = 1;
+                    q.push({l, r});
+                }
+            }
+        }
     }
     int numIslands(vector<vector<char>>& grid) {
-        n = grid.size(), m=grid[0].size();
+        n = grid.size(), m = grid[0].size();
         int ans=0;
+        vector<vector<int>> vis(n, vector<int>(m, 0));
         for(int i=0; i<n; i++)
         {
             for(int j=0; j<m; j++)
             {
-                if(grid[i][j]=='1') //if land is not visited..
+                if(!vis[i][j] and grid[i][j]=='1')
                 {
-                    dfs(i, j, grid);
                     ans++;
+                    bfs(i, j, vis, grid);
                 }
             }
         }
