@@ -30,10 +30,11 @@ public:
             return;
         }
         
-        dfs(i-1, j, vis, land, v);
-        dfs(i+1, j, vis, land, v);
-        dfs(i, j-1, vis, land, v);
-        dfs(i, j+1, vis, land, v);
+        //Move only right and down..
+        // dfs(i-1, j, vis, land, v);   //up
+        dfs(i+1, j, vis, land, v);      //down
+        // dfs(i, j-1, vis, land, v);   //left
+        dfs(i, j+1, vis, land, v);      //right
         
     }
     vector<vector<int>> findFarmland(vector<vector<int>>& land) {
