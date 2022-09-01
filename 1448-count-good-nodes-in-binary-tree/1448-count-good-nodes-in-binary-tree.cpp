@@ -13,24 +13,19 @@ class Solution {
 public:
     int dfs(TreeNode* root, int maxi)
     {
-        if(root == NULL)    return 0;
-        
+        if(root==NULL)  return 0;
         int ans=0;
-        if(root->left)
-        {
-            if(root->left->val >= maxi) ans++;
-            ans += dfs(root->left, max(maxi, root->left->val));
-        }
-        if(root->right)
-        {
-            if(root->right->val >= maxi)    ans++;
-            ans += dfs(root->right, max(maxi, root->right->val));
-        }
+        if(root->val >= maxi)   ans++;
+        
+        maxi = max(maxi, root->val);
+        ans += dfs(root->left, maxi);
+        ans += dfs(root->right, maxi);
+        
         return ans;
     }
     int goodNodes(TreeNode* root) {
         if(root==NULL)  return 0;
-        return 1 + dfs(root, root->val);    //1 is for the root node..
+        return dfs(root, INT_MIN);
     }
 };
 
