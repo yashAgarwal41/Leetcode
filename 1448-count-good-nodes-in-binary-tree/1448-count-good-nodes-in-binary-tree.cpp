@@ -11,21 +11,25 @@
  */
 class Solution {
 public:
-    int dfs(TreeNode* root, int maxi)
-    {
-        if(root==NULL)  return 0;
+    //BFS, TC-O(no of nodes..)
+    int goodNodes(TreeNode* root) {
+        if(root == NULL)    return 0;
+        queue<pair<TreeNode*, int>> q;
+        q.push({root, INT_MIN});
         int ans=0;
-        if(root->val >= maxi)   ans++;
         
-        maxi = max(maxi, root->val);
-        ans += dfs(root->left, maxi);
-        ans += dfs(root->right, maxi);
+        while(!q.empty())
+        {
+            TreeNode* node = q.front().first;
+            int maxi = q.front().second;
+            q.pop();
+            
+            if(node->val >= maxi)   ans++;
+            maxi = max(maxi, node->val);
+            if(node->left)  q.push({node->left, maxi});
+            if(node->right) q.push({node->right, maxi});
+        }
         
         return ans;
     }
-    int goodNodes(TreeNode* root) {
-        if(root==NULL)  return 0;
-        return dfs(root, INT_MIN);
-    }
 };
-
