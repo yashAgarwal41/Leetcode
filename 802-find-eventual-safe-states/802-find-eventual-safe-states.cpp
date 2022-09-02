@@ -1,50 +1,49 @@
 class Solution {
 public:
-    unordered_set<int> cylceNode;
-    bool dfs(int i, vector<int> &vis, vector<int> &dfsVis, vector<vector<int>> &graph)
+    //TC-O(n+e)..
+    //Check for the cycle in DAG..
+    //The algorithm used here is to detect the cyclic graph but the additional things is the nodes which are involved in the cycle are marked and are discarded while returning the answer
+    using vi = vector<int>;
+    bool dfs(int i, vi &vis, vi &dfsVis, vi &cycleNode, vector<vi> &graph)
     {
         vis[i] = 1;
         dfsVis[i] = 1;
         
-        for(auto j: graph[i])
+        for(auto &j:graph[i])
         {
             if(!vis[j])
             {
-                bool chk = dfs(j, vis, dfsVis, graph);
-                if(chk)
+                bool isCycle = dfs(j, vis, dfsVis, cycleNode, graph);   
+                if(isCycle)  //cycle found in the path..
                 {
-                    cylceNode.insert(i);
-                    // cylceNode.insert(j);
-                    return true;
+                    cycleNode[i] = 1;
+                    return true;   
                 }
             }
-            else if(dfsVis[j] == 1)
+            else if(dfsVis[j] == 1) //cycle found here..
             {
-                cylceNode.insert(i);
-                // cylceNode.insert(j);
+                cycleNode[i] = 1;
                 return true;
             }
         }
         
-        dfsVis[i] = 0;
-        return false;
+        dfsVis[i] = 0;  //path is finished..
+        return false;   //no cylce found..
     }
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        int n=graph.size();
-        vector<int> vis(n, 0), dfsVis(n, 0);
+        int n = graph.size();
+        vector<int> vis(n, 0), dfsVis(n, 0), cycleNode(n, 0);
+        
         for(int i=0; i<n; i++)
         {
             if(!vis[i])
-            {
-                bool chk = dfs(i, vis, dfsVis, graph);
-                // if(chk)    cylceNode.insert(i);
-            }
+                dfs(i, vis, dfsVis, cycleNode, graph);
         }
-        vector<int> res;
+        
+        vi res;
         for(int i=0; i<n; i++)
         {
-            if(cylceNode.count(i) == 0)    
-                res.push_back(i);
+            if(cycleNode[i] == 0)   res.push_back(i);   //nodes which are not in the cycle..
         }
         return res;
     }
