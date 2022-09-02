@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    //BFS (Level order traversal)..
+    //BFS..
     vector<double> averageOfLevels(TreeNode* root) {
         vector<double> res;
         queue<TreeNode*> q;
@@ -19,12 +19,12 @@ public:
         while(!q.empty())
         {
             int n = q.size();
-            double sum = 0;
+            double sum=0;
             for(int i=0; i<n; i++)
             {
                 TreeNode* node = q.front();
-                q.pop();
                 sum += node->val;
+                q.pop();
                 if(node->left)  q.push(node->left);
                 if(node->right) q.push(node->right);
             }
