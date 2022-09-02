@@ -6,6 +6,43 @@ public:
     //3.Create TopoSort for row and col..
     //4.Generate The Matrix..
     
+    bool detectCycle(vector<vector<int>> &graph)
+    {
+        int n = graph.size();
+        vector<int> vis(n, 0), dfsVis(n, 0);
+        
+        for(int i=1; i<n; i++)
+        {
+            if(!vis[i])
+            {
+                if(cycleDfs(i, vis, dfsVis, graph)) //if cycle found in any component..
+                return true;
+            }
+            
+        }
+        return false;   //no cycle found in the entire graph..
+    }
+    
+    vector<int> topologicalSort(vector<vector<int>> &graph)
+    {
+        int n = graph.size();
+        vi vis(n, 0), topo;
+        stack<int> st;
+        for(int i=1; i<n; i++)
+        {
+            if(!vis[i])
+            {
+                topoDfs(i, vis, st, graph);
+            }
+        }
+        while(!st.empty())
+        {
+            topo.push_back(st.top());
+            st.pop();
+        }
+        return topo;
+    }
+    
     bool cycleDfs(int i, vi &vis, vi &dfsVis, vector<vi> &graph)
     {
         vis[i] = 1;
@@ -37,86 +74,36 @@ public:
     
     vector<vector<int>> buildMatrix(int k, vector<vector<int>>& rc, vector<vector<int>>& cc) {
         int n = k+1;
-        vector<vi> ans;
         
-        //Creating Graph..
-        vector<vi> rowGraph(n);
-        vector<vi> colGraph(n);
-        
+        //1. Creating Graph..
+        vector<vi> graph1(n);
+        vector<vi> graph2(n);
         for(auto it:rc)
-        {
-            rowGraph[it[0]].push_back(it[1]);
-        }
+            graph1[it[0]].push_back(it[1]);
         for(auto it:cc)
-        {
-            colGraph[it[0]].push_back(it[1]);
-        }
+            graph2[it[0]].push_back(it[1]);
         
-        //Detecting Cycle..
-        vector<int> vis(n, 0), dfsVis(n, 0);
-        //In RowGraph..
-        for(int i=1; i<n; i++)
-        {
-            if(!vis[i])
-            {
-                if(cycleDfs(i, vis, dfsVis, rowGraph))  
-                    return ans;
-            }
-        }
-        //In colGraph..
-        fill(vis.begin(), vis.end(), 0);
-        fill(dfsVis.begin(), dfsVis.end(), 0);
-        for(int i=1; i<n; i++)
-        {
-            if(!vis[i])
-            {
-                if(cycleDfs(i, vis, dfsVis, colGraph))  
-                    return ans;
-            }
-        }
         
-        //Create TopoSorting for both row and col Graph..
-        vector<int> topoRow, topoCol;
-        stack<int> st;
+        //2. Detecting Cycle..
+        if(detectCycle(graph1) or detectCycle(graph2))  return vector<vector<int>> ();
         
-        //row toposort
-        fill(vis.begin(), vis.end(), 0);
-        for(int i=1; i<n; i++)
-        {
-            if(!vis[i])
-            {
-                topoDfs(i, vis, st, rowGraph);
-            }
-        }
-        while(!st.empty())
-        {
-            topoRow.push_back(st.top());
-            st.pop();
-        }
         
-        //column toposort
-        fill(vis.begin(), vis.end(), 0);
-        for(int i=1; i<n; i++)
-        {
-            if(!vis[i])
-            {
-                topoDfs(i, vis, st, colGraph);
-            }
-        }
-        while(!st.empty())
-        {
-            topoCol.push_back(st.top());
-            st.pop();
-        }
+        //3. Create TopoSorting for both row and col Graph..
+        vector<int> topoRow = topologicalSort(graph1);
+        vector<int> topoCol = topologicalSort(graph2);
         
-        //now Creating the Matrix;
+        
+        //4. now Creating the Matrix;
         vector<vector<int>> res(k, vector<int> (k, 0));
         unordered_map<int, int> rowMap;
+        //first fill the rowWise ordering in 1st column..
         for(int i=0; i<k; i++)
         {
             res[i][0] = topoRow[i];
             rowMap[topoRow[i]] = i;
         }
+        
+        //then swap columnWise for columnOrdering..
         for(int i=0; i<topoCol.size(); i++)
         {
             int j = rowMap[topoCol[i]]; 
