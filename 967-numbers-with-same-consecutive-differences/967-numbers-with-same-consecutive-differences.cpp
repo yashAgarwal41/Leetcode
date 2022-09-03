@@ -1,33 +1,32 @@
 class Solution {
 public:
-    //Backtracking..
-    void help(int i, int num, int n, int k, vector<int> &ans)
+    //Backtracking..TC-O(2^n)
+    int n;
+    void help(int i, int n, int k, int num, vector<int> &res)
     {
         if(i>=n)
         {
-            ans.push_back(num);
+            res.push_back(num);
             return;
         }
         
-        for(int j=0; j<=9; j++)
+        if(i==0)
         {
-            if(i == 0 and j==0)   continue;
-            else if(i==0)
-                help(i+1, j, n, k, ans);
-            else 
-            {
-                int r = num%10;
-                if(abs(j-r) == k)
-                {
-                    help(i+1, num*10 + j, n, k, ans);
-                }
-            }
-            
+            for(int j=1; j<=9; j++)  help(i+1, n, k, j, res);
         }
+        else
+        {
+            int low = num%10 - k;
+            int high = num%10 + k;
+
+            if(low>=0 and low<=9)   help(i+1, n, k, num*10 + low, res);
+            if(high>=0 and high<=9 and low!=high)   help(i+1, n, k, num*10 + high, res);
+        }
+        
     }
     vector<int> numsSameConsecDiff(int n, int k) {
-        vector<int> ans;
-        help(0, 0, n, k, ans);
-        return ans;
+        vector<int> res;
+        help(0, n, k, 0, res);
+        return res;
     }
 };
