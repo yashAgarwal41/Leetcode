@@ -16,8 +16,9 @@ public:
             if(indegree[i]==0)  q.push(i);
         }
         
-        vector<set<int>> ans(n);
         
+        vector<vector<int>> ans(n, vector<int> (n, 0));
+        // ans[i][j] = 1, if 'j' can reach 'i'..
         while(!q.empty())
         {
             int node = q.front();
@@ -27,21 +28,24 @@ public:
                 indegree[j]--;
                 if(indegree[j] == 0)    q.push(j);
                 
+                ans[j][node] = 1;   //'j' is reachable by 'node'
                 //insert all the incoming nodes of 'node' in ans[j]..
-                ans[j].insert(node);
-                for(auto it:ans[node])
+                for(int x=0; x<n; x++)
                 {
-                    ans[j].insert(it);
+                    if(ans[node][x] == 1)   
+                        ans[j][x] = 1;
                 }
+                
             }
         }
         
-        vector<vector<int>> res;
-        for(auto it:ans)
+        vector<vector<int>> res(n);
+        for(int i=0; i<n; i++)
         {
-            vector<int> v;
-            for(auto it2:it)    v.push_back(it2);
-            res.push_back(v);
+            for(int j=0; j<n; j++)
+            {
+                if(ans[i][j]==1)    res[i].push_back(j);
+            }
         }
         
         return res;
