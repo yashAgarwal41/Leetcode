@@ -1,31 +1,33 @@
 class Solution {
 public:
     //Backtracking..
-    int n;
-    void help(int i, int n, int k, int num, vector<int> &res)
+    void help(int i, int num, int n, int k, vector<int> &ans)
     {
         if(i>=n)
         {
-            res.push_back(num);
+            ans.push_back(num);
             return;
         }
         
         for(int j=0; j<=9; j++)
         {
-            if(i==0 and j==0)   continue;
-            if(i==0)
-                help(i+1, n, k, j, res);
+            if(i == 0 and j==0)   continue;
+            else if(i==0)
+                help(i+1, j, n, k, ans);
             else 
             {
-                int prev = num%10;
-                if(abs(j - prev) == k)
-                    help(i+1, n, k, num*10 + j, res);
+                int r = num%10;
+                if(abs(j-r) == k)
+                {
+                    help(i+1, num*10 + j, n, k, ans);
+                }
             }
+            
         }
     }
     vector<int> numsSameConsecDiff(int n, int k) {
-        vector<int> res;
-        help(0, n, k, 0, res);
-        return res;
+        vector<int> ans;
+        help(0, 0, n, k, ans);
+        return ans;
     }
 };
