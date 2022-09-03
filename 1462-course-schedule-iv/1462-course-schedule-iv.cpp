@@ -1,6 +1,6 @@
 class Solution {
 public:
-    //Kahn's Algo..BFS, TC-O(n*n*log)
+    //Kahn's Algo..BFS, TC-O(n*n)
     //que[a, b] is true if 'b' is reachable by 'a'..
     vector<bool> checkIfPrerequisite(int n, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
         //Create Graph and store indegree..
@@ -20,7 +20,7 @@ public:
         
         
         //ans[j] will store nodes which can reach 'j'..
-        vector<set<int>> ans(n);
+        vector<vector<int>> ans(n, vector<int> (n, 0));
         //Apply Bfs..
         while(!q.empty())
         {
@@ -31,11 +31,12 @@ public:
                 indegree[j]--;
                 if(indegree[j] == 0)    q.push(j);
                 
-                ans[j].insert(node);    //'node' can reach 'j'..
-                //if 'j' is reachable by 'node', then ans[j] are also reachable by 'node'..
-                for(auto x:ans[node])
+                ans[j][node] = 1;    //'node' can reach 'j'..
+                //if 'j' is reachable by 'node', then 'j' is also reachable by 'ans[node]'..
+                for(int x=0; x<n; x++)
                 {
-                    ans[j].insert(x);
+                    if(ans[node][x] == 1)
+                        ans[j][x] = 1;
                 }
             }
         }
@@ -44,7 +45,7 @@ public:
         vector<bool> res;
         for(auto it:queries)
         {
-            if(ans[it[1]].count(it[0])) res.push_back(true);
+            if(ans[it[1]][it[0]]) res.push_back(true);
             else res.push_back(false);
         }
         
