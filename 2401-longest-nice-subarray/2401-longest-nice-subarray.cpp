@@ -1,32 +1,22 @@
 class Solution {
 public:
-    //Sliding Window.. TC-O(n*32*32) at max..
-    //only [2, 4, 8, 16, 32, 64, 128, .....log2(10^9)], can be the longest subarray of size -> 32
-    //test cases are not made up of this type, so it will not give TLE..
+    //Sliding Window, TC-O(n)
     int longestNiceSubarray(vector<int>& v) {
         int n = v.size();
-        int maxi=1;
-        
-        int i=0, j=0;
-        while(j<n)
+        int OR = 0;
+        //OR is the or of all elements of our window, so we don't have to check for all the pairs of window to satisy the condition of (a and b == 0)..
+        //whenever we don't get 0, then move the left pointer of the window and xor the OR with that element, so to disclude it from the or's of our window..
+        int i=0, j=0, maxi=1;
+        while(i<n and j<n)
         {
-            bool chk=true;
-            //TC will be O(32*32) at max..
-            for(int k=i; k<=j; k++)
+            while((OR & v[j]) != 0)
             {
-                for(int r=k+1; r<=j; r++)
-                {
-                    if((v[k]&v[r])!=0)   
-                    {
-                        chk = false;
-                        break;
-                    }
-                }
-                if(!chk)    break;
+                OR ^= v[i];
+                i++;
             }
-            if(!chk)    i++;
             maxi = max(maxi, j-i+1);
-            if(chk) j++;
+            OR |= v[j];
+            j++;
         }
         return maxi;
     }
