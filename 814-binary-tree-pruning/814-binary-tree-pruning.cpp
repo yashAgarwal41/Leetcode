@@ -11,25 +11,20 @@
  */
 class Solution {
 public:
-    //PreOrder Traversal for every node..
-    //TC-O(n^2)..
-    bool containsOne(TreeNode *root)
+    bool containsOne(TreeNode*root)
     {
-        if(root==NULL)  return 0;
+        if(root == NULL)    return false;
+        
         bool left = containsOne(root->left);
         bool right = containsOne(root->right);
-        
-        if(left==0 and right==0 and root->val==0)
-            return 0;
-        
-        return 1;
+        if(left == false)   root->left = NULL;
+        if(right == false)  root->right = NULL;
+        if(left == false and right == false and root->val==0)   return false;
+        else return true;
     }
-    TreeNode* pruneTree(TreeNode* root) 
-    {
-        if(!containsOne(root))
-            return NULL;
-        root->left = pruneTree(root->left);
-        root->right = pruneTree(root->right);
+    TreeNode* pruneTree(TreeNode* root) {
+        bool found = containsOne(root);
+        if(!found and root->val==0)    return NULL;
         return root;
     }
 };
