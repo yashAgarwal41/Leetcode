@@ -14,9 +14,9 @@ public:
     }
     int maximumCandies(vector<int>& v, long long k) {
         int n = v.size();
-        ll sum = accumulate(v.begin(), v.end(), 0LL);
-        if(sum < k) return 0;
-        if(sum == k)    return 1;
+        // ll sum = accumulate(v.begin(), v.end(), 0LL);
+        // if(sum < k) return 0;
+        // if(sum == k)    return 1;
         
         int low = 1, high = 1e7, ans = 0;
         
