@@ -2,6 +2,18 @@ class Solution {
 public:
     //Binary Search, TC-O(nlogn)..
     //high = 1e5, because e.g, n=1, m=1, v=[1e5], then we need to distribute all '1e5' products to the only shop..
+    bool canDistribute(int n, int mid, vector<int> &v)
+    {
+        
+        for(auto &i : v)
+        {
+            n -= ceil((1.0*i)/mid);
+            if(n<0) return false;   //means 'n' is not sufficient to distribute the quantity 'mid'..
+            // means it requires more than n shops to distribute all products
+        }
+        return true;    // distributed all products
+    }
+    
     int minimizedMaximum(int n, vector<int>& v) {
         int m = v.size();
         int low = 1, high = 1e5, ans;
@@ -9,13 +21,7 @@ public:
         while(low<=high)
         {
             int mid = low + (high-low)/2;
-            int totalShops = 0;    //totalShops that can hold the quantity 'mid'..
-            for(auto &i : v)
-            {
-                totalShops += ceil((1.0*i)/mid);
-            }
-            
-            if(totalShops <= n)
+            if(canDistribute(n, mid, v))
             {
                 high = mid-1;
                 ans = mid;
