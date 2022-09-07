@@ -7,6 +7,7 @@ public:
         days--;
         for(int i=0; i<v.size(); i++)
         {
+            if(v[i] > mid)  return false;   //if single item is heavier than ship weight 'mid'..
             if(sum + v[i] > mid)
             {
                 days--;
@@ -19,7 +20,7 @@ public:
     }
     int shipWithinDays(vector<int>& v, int days) {
         int n = v.size();
-        int low=*max_element(v.begin(), v.end()), high = 1e8, ans;
+        int low = 1, high = 1e8, ans;
         
         while(low<=high)
         {
