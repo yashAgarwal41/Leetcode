@@ -1,10 +1,9 @@
 class Solution {
 public:
     //Binary search..TC-O(nlogn)
-    int smallestDivisor(vector<int>& v, int th) {
+    int smallestDivisor(vector<int>& v, int threshold) {
         int n = v.size();
-        int low = 1, high = *max_element(v.begin(), v.end());
-        int ans;
+        int low = 1, high = 1e6, ans;
         
         while(low<=high)
         {
@@ -12,7 +11,7 @@ public:
             int div=0;
             for(auto &i:v)  div += ceil((i*1.0)/mid);
             
-            if(div<=th)
+            if(div<=threshold)
             {
                 ans = mid;
                 high = mid-1;
