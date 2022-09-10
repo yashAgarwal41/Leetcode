@@ -1,29 +1,30 @@
 class Solution {
 public:
-    //memoization...TC-O(n*k)
+    int n;
     int dp[1001][101][2];
-    int help(int i, int k, bool buy, int &n, vector<int> &v)
+    int help(int i, int k, bool buy, vector<int> &v)
     {
-        if(i>=n or k<=0) return 0;
-        if(dp[i][k][buy] != -1) return dp[i][k][buy];
+        if(k<0)     return -1e6;
+        if(k==0 or i>=n)    return 0;
+        if(dp[i][k][buy]!=-1)   return dp[i][k][buy];
         
-        int take = 0, notTake = 0;
-        if(buy == 0)
+        int pick=0, notPick=0;
+        if(buy == 1)    //canBuy
         {
-            take = help(i+1, k, 1, n, v) - v[i];
-            notTake = help(i+1, k, 0, n, v);
+            pick = help(i+1, k, 0, v) - v[i]; //if buy
+            notPick = help(i+1, k, 1, v);   //if not buy
         }
-        else 
+        else
         {
-            take = help(i+1, k-1, 0, n, v) + v[i];
-            notTake = help(i+1, k, 1, n, v);
+            pick = help(i+1, k-1, 1, v) + v[i];   //if sell
+            notPick = help(i+1, k, 0, v);   //if not sell
         }
         
-        return dp[i][k][buy] = max(take, notTake);
+        return dp[i][k][buy] = max(pick, notPick);
     }
-    int maxProfit(int k, vector<int>& v) {
-        int n = v.size();
+    int maxProfit(int k, vector<int>& prices) {
+        n = prices.size();
         memset(dp, -1, sizeof dp);
-        return help(0, k, false, n, v);
+        return help(0, k, 1, prices);
     }
 };
