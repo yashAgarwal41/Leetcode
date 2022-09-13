@@ -1,38 +1,35 @@
 class Solution {
 public:
-    //Reverse Dijsktra(Greatest Path)...BFS, TC-O(n+e)
+    //Reverse Dijsktra(Greatest Path)...BFS, TC-O(n+e)*logn
     double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
-        vector<set<pair<int, double>>> graph(n);
-        int m = edges.size();
-        for(int i=0; i<m; i++)
+        vector<double> dist(n, -1);
+        vector<vector<pair<int, double>>> graph(n);
+        priority_queue<pair<double, int>> pq;
+        for(int i=0; i<edges.size(); i++)
         {
-            graph[edges[i][0]].insert({edges[i][1], succProb[i]});
-            graph[edges[i][1]].insert({edges[i][0], succProb[i]});
+            graph[edges[i][0]].push_back({edges[i][1], succProb[i]});
+            graph[edges[i][1]].push_back({edges[i][0], succProb[i]});
         }
         
-        vector<double> dis(n, -1);  //initial distance as -1
-        priority_queue<pair<double, int>> pq;   //MaxHeap
-        pq.push({-1, start});   //starting with start point with distance as -1
-        
+        dist[start] = 1;
+        pq.push({1, start});
         while(!pq.empty())
         {
-            double parentDis = pq.top().first;  //parent distance from start node
-            int parentNode = pq.top().second;   //parent node
+            double d1 = pq.top().first;
+            int parent = pq.top().second;
             pq.pop();
-            for(auto &j:graph[parentNode])
+            for(auto &j : graph[parent])
             {
-                int childNode = j.first;    //childNode..
-                double childDis = j.second; //childDistance from parentNode..
-                
-                double newDis = abs(parentDis*childDis);    //newDistance from start to end..
-                if(newDis>dis[childNode])   //if newDistance is greater than prev, then update it and push into queue..
+                int child = j.first;
+                double d2 = j.second;
+                if(d1 * d2 > dist[child])
                 {
-                    pq.push({newDis, childNode});
-                    dis[childNode] = newDis;
+                    dist[child] = d1 * d2;
+                    pq.push({dist[child], child});
                 }
             }
         }
         
-        return dis[end] == -1 ? 0 : dis[end];
+        return dist[end]==-1 ? 0 : dist[end];
     }
 };
