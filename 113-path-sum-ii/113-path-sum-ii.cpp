@@ -11,35 +11,30 @@
  */
 class Solution {
 public:
-    //DFS..
-    void dfs(TreeNode* root, int target, vector<int> &v, vector<vector<int>> &res)
+    void dfs(TreeNode* root, int sum, int target, vector<int> &path, vector<vector<int>> &res)
     {
-        if(root==NULL)  return;
-        if(root->left==NULL and root->right==NULL)  //leaf Node
+
+        sum += root->val;
+        path.push_back(root->val);
+        if(root->left == NULL and root->right == NULL)
         {
-            if(target==0)   res.push_back(v);
+            if(sum == target)   res.push_back(path);
+            sum -= root->val;
+            path.pop_back();
             return;
         }
-        if(root->left)  
-        {
-            v.push_back(root->left->val);
-            dfs(root->left, target-(root->left->val), v, res);
-            v.pop_back();   //backtrack
-        }
         
-        if(root->right) 
-        {
-            v.push_back(root->right->val);
-            dfs(root->right, target-(root->right->val), v, res);
-            v.pop_back();   //backtrack
-        }
+        if(root->left)  dfs(root->left, sum, target, path, res);
+        if(root->right) dfs(root->right, sum, target, path, res);
+        sum -= root->val;
+        path.pop_back();
     }
-    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+    vector<vector<int>> pathSum(TreeNode* root, int target) {
         vector<vector<int>> res;
-        if(root==NULL)  return res;
-        vector<int> v;
-        v.push_back(root->val);
-        dfs(root, targetSum-root->val, v, res);
+        if(root == NULL)    return res;
+        vector<int> path;
+        dfs(root, 0, target, path, res);
         return res;
+        
     }
 };
