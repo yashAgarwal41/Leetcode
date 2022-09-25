@@ -1,15 +1,10 @@
 class FrontMiddleBackQueue {
-public:
-    deque<int> deq1, deq2;
-    FrontMiddleBackQueue() {
-        
-    }
-    
-    void pushFront(int val) {
-        deq1.push_front(val);
-    }
-    
-    void pushMiddle(int val) {
+    //Using 2 dequeus, for first half and second half..
+    //Always make sure that size of [deq1 = deq2] or [deq1 == deq2.size()-1];
+    //push middle element in deq1 always..
+private:
+    void makeDeque1_LessThanEqual_2(deque<int> &deq1, deque<int> &deq2)
+    {
         while(deq1.size() > deq2.size())
         {
             deq2.push_front(deq1.back());
@@ -20,6 +15,21 @@ public:
             deq1.push_back(deq2.front());
             deq2.pop_front();
         }
+    }
+public:
+    
+    deque<int> deq1, deq2;
+    int x;
+    FrontMiddleBackQueue() {
+        
+    }
+    
+    void pushFront(int val) {
+        deq1.push_front(val);
+    }
+    
+    void pushMiddle(int val) {
+        makeDeque1_LessThanEqual_2(deq1, deq2);
         deq1.push_back(val);
     }
     
@@ -32,60 +42,47 @@ public:
         
         if(deq1.size()!=0)
         {
-            int x = deq1.front();
+            x = deq1.front();
             deq1.pop_front();
-            return x;
         }
         else
         {
-            int x = deq2.front();
+            x = deq2.front();
             deq2.pop_front();
-            return x;
         }
+        return x;
     }
     
     int popMiddle() {
         if(deq1.size() == 0 and deq2.size() == 0)   return -1;
         
-        while(deq1.size() > deq2.size())
-        {
-            deq2.push_front(deq1.back());
-            deq1.pop_back();
-        }
-        while(deq2.size()-deq1.size()>1)
-        {
-            deq1.push_back(deq2.front());
-            deq2.pop_front();
-        }
-        
+        makeDeque1_LessThanEqual_2(deq1, deq2);
         if(deq1.size()==0 or deq1.size() < deq2.size()) 
         {
-            int x = deq2.front();
+            x = deq2.front();
             deq2.pop_front();
-            return x;
         }
         else
         {
-            int x = deq1.back();
+            x = deq1.back();
             deq1.pop_back();
-            return x;
         }
+        return x;
     }
     
     int popBack() {
         if(deq1.size() == 0 and deq2.size() == 0)   return -1;
         if(deq2.size()!=0) 
         {
-            int x = deq2.back();
+            x = deq2.back();
             deq2.pop_back();
-            return x;
         }
         else
         {
-            int x = deq1.back();
+            x = deq1.back();
             deq1.pop_back();
-            return x;
         }
+        return x;
     }
 };
 
