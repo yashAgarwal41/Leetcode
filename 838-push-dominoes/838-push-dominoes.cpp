@@ -1,5 +1,13 @@
 class Solution {
 public:
+    //TC-O(n), SC-O(n)..
+    //PreCalculate:
+    //distance of nearest 'R' at left side if no 'L' comes between..
+    //distance of nearest 'L' at right side if no 'R' comes between..
+    //if both distance are same, then it will not bend
+    //else take the min distance direction which make it fall first..
+    //distance = 0 means, that it is not fallen by domino
+    
     string pushDominoes(string s) {
         int n = s.size();
         vector<int> rightDis(n, 0), leftDis(n, 0);
