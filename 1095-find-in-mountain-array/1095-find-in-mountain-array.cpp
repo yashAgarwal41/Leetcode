@@ -63,7 +63,6 @@ public:
         
         int peak = findPeak(n, mountainArr);
         if(mountainArr.get(peak) == target) return peak;
-        cout<<peak<<endl;
         int left = findInLeft(0, peak-1, target, mountainArr);
         if(left!=-1)  return left;
         int right = findInRight(peak+1, n-1, target, mountainArr);
