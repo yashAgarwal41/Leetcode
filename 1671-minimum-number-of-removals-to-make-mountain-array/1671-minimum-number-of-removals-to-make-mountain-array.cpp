@@ -1,15 +1,16 @@
 class Solution {
 public:
-    //LIS from front and end, TC-O(n*n)
-    void calculateLIS(int n, vector<int> &v, vector<int> &lis)
+    //LIS(Binary search) from front and end, TC-O(n*logn)
+    void calculateLIS(int n, vector<int> &v, vector<int> &lisStore)
     {
+        vector<int> lis;
         for(int i=0; i<n; i++)
         {
-            for(int j=0; j<i; j++)
-            {
-                if(v[i]>v[j])
-                    lis[i] = max(lis[i], lis[j]+1);
-            }
+            auto lb = lower_bound(lis.begin(), lis.end(), v[i]);
+            if(lb == lis.end()) lis.push_back(v[i]);
+            else *lb = v[i];
+            
+            lisStore[i] = lis.size();
         }
     }
     int minimumMountainRemovals(vector<int>& v) {
