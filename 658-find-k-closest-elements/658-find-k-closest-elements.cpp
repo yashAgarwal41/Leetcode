@@ -1,20 +1,21 @@
 class Solution {
 public:
+    //2pointers, TC-O(n-k)+O(k)..
     vector<int> findClosestElements(vector<int>& v, int k, int x) {
         int n = v.size();
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        
-        for(int i=0; i<n; i++)
+        int low=0, high = n-1;
+        while(high-low+1>k)
         {
-            pq.push({abs(x-v[i]), v[i]});
+            int a = abs(x-v[low]);
+            int b = abs(x-v[high]);
+            if(a>b) low++;
+            else high--;
         }
         vector<int> res;
-        for(int i=0; i<k; i++)
+        for(int i=low; i<=high; i++)
         {
-            res.push_back(pq.top().second);
-            pq.pop();
+            res.push_back(v[i]);
         }
-        sort(res.begin(), res.end());
         return res;
     }
 };
