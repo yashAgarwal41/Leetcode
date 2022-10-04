@@ -11,22 +11,30 @@
  */
 class Solution {
 public:
-    //DFS
-    bool dfs(TreeNode* root, int target)
-    {
-        if(root==NULL)  return false;
-        if(!root->left and !root->right)    //leaf node
-            return target == 0;
-        bool left=0, right=0;
-        if(root->left)
-            left = dfs(root->left, target-root->left->val);
-        if(root->right)
-            right = dfs(root->right, target-root->right->val);
-        
-        return left or right;
-    }
+    //BFS
     bool hasPathSum(TreeNode* root, int targetSum) {
-        if(root==NULL)  return false;
-        return dfs(root, targetSum-root->val);
+        if(root == NULL)    return false;
+        queue<pair<TreeNode*, int>> q;
+        q.push({root, root->val});
+        
+        while(!q.empty())
+        {
+            int n = q.size();
+            while(n--)
+            {
+                TreeNode *node = q.front().first;
+                int currSum = q.front().second;
+                q.pop();
+                
+                if(currSum == targetSum and !node->left and !node->right)
+                    return true;
+                
+                if(node->left)  
+                    q.push({node->left, currSum + node->left->val});
+                if(node->right)
+                    q.push({node->right, currSum + node->right->val});
+            }
+        }
+        return false;
     }
 };
