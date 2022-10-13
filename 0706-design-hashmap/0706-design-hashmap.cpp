@@ -1,7 +1,7 @@
 class MyHashMap {
 public:
     int n;
-    vector<vector<pair<int, int>>> v;
+    vector<list<pair<int, int>>> v;
     MyHashMap() {
         n = 100;
         v.resize(n);
