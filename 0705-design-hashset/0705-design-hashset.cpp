@@ -1,9 +1,9 @@
 class MyHashSet {
 public:
     int n;
-    vector<vector<int>> v;
+    vector<list<int>> v;
     MyHashSet() {
-        n = 10;
+        n = 100;
         v.resize(n);
     }
     
