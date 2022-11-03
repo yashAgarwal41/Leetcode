@@ -1,36 +1,35 @@
 class Solution {
 public:
-    int longestPalindrome(vector<string>& words) {
-        int n = words.size(), cntSame = 0;
-        unordered_map<string, int> freq;
-        for(int i=0; i<n; i++)
+    int longestPalindrome(vector<string>& v) {
+        int n = v.size();
+        unordered_map<string, int> map;
+        for(auto &str : v)
         {
-            freq[words[i]]++;
+            map[str]++;
         }
-        // for(auto it:freq)   cout<<it.first<<" "<<it.second<<endl;
-        int ans=0;
-        for(auto &it: freq)
+        
+        int ans = 0;
+        bool oddCheck = false;
+        for(auto &it : map)
         {
             string str = it.first;
-            if(str[0] == str[1])    
-            {
-                ans += 4*(it.second/2);
-                cntSame += it.second%2;
-            }
-            else 
+            if(str[0] != str[1])
             {
                 string rev = "";
                 rev += str[1];
                 rev += str[0];
-                if(freq.find(rev) != freq.end())
+                if(map.count(rev))
                 {
-                    ans += 2*(min(freq[str], freq[rev]));
+                    ans += 2*min(map[str], map[rev]);
                 }
             }
+            else 
+            {
+                ans += 4*(map[str]/2);
+                if(map[str]%2)  oddCheck = true;
+            }
         }
-        
-        if(cntSame) ans+=2;
+        if(oddCheck) ans += 2;
         return ans;
-        
     }
 };
