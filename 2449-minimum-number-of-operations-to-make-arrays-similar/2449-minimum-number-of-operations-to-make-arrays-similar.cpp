@@ -1,5 +1,7 @@
 class Solution {
 public:
+    //Sorting, TC-O(nlogn)
+    //Do for even and odds...
     long long makeSimilar(vector<int>& nums, vector<int>& target) {
         int n = nums.size();
         long long ans=0;
@@ -7,6 +9,7 @@ public:
         sort(target.begin(), target.end());
         vector<pair<int, int>> vp;
         int i=0, j=0;
+        //create odd pairs..
         while(i<n)
         {
             if(nums[i]%2)
@@ -24,6 +27,7 @@ public:
             }
             i++;
         }
+        //creating even pairs..
         i=0, j=0;
         while(i<n)
         {
@@ -42,10 +46,10 @@ public:
             }
             i++;
         }
+        
         sort(vp.begin(), vp.end());
         
-        long long add = 0, sub = 0;
-        
+        long long add = 0, sub = 0; //counts for plus2, minus2 on doing an operation..
         for(int i=0; i<n; i++)
         {
             int x = vp[i].first, y = vp[i].second;
