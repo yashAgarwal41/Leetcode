@@ -1,6 +1,7 @@
 class Solution {
 public:
-    
+    //Apply Binary-Search, TC-O(nlogn)
+    //Compare between mid and mid+1, and then decide where to move in binary search..
     long long help(int mid, vector<int> &nums, vector<int> &cost)
     {
         long long totCost = 0;
@@ -12,15 +13,14 @@ public:
     }
     
     long long minCost(vector<int>& nums, vector<int>& cost) {
-        int n = nums.size();
         long long ans = 0;
+        int n = nums.size(), low = 1, high = 1e6, mid;
         
-        int low = 1, high = 1e6, mid;
         while(low<=high)
         {
             mid = low + (high-low)/2;
-            long long cost1 = help(mid, nums, cost);
-            long long cost2 = help(mid+1, nums, cost);
+            long long cost1 = help(mid, nums, cost);    //cost at value = mid...
+            long long cost2 = help(mid+1, nums, cost);  //cost at value = mid+1...
             if(cost1 <= cost2)
             {
                 ans = cost1;
