@@ -2,7 +2,7 @@ class Solution {
 public:
     //dfs
     vector<int> res;
-    vector<int> dfs(int i, string &labels, vector<int> &vis, vector<set<int>> &graph)
+    vector<int> dfs(int i, string &labels, vector<int> &vis, vector<vector<int>> &graph)
     {
         vis[i] = 1;
         vector<int> freq(26, 0);
@@ -20,11 +20,11 @@ public:
         return freq;
     }
     vector<int> countSubTrees(int n, vector<vector<int>>& edges, string labels) {
-        vector<set<int>> graph(n);
+        vector<vector<int>> graph(n);
         for(auto &v:edges)
         {
-            graph[v[0]].insert(v[1]);
-            graph[v[1]].insert(v[0]);
+            graph[v[0]].push_back(v[1]);
+            graph[v[1]].push_back(v[0]);
         }
         vector<int> vis(n, 0);
         res.resize(n, 0);
