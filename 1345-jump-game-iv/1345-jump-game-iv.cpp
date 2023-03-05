@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //BFS
     int minJumps(vector<int>& arr) {
         int n = arr.size();
         unordered_map<int, vector<int>> mmap;
@@ -13,11 +14,10 @@ public:
         while(!q.empty())
         {
             int sz = q.size();
-            steps++;
             for(int i=0; i<sz; i++)
             {
                 int j = q.front();
-                if(j == n-1)    return steps-1;
+                if(j == n-1)    return steps;
                 q.pop();
                 
                 if(j-1>=0 and mmap.find(arr[j-1]) != mmap.end())
@@ -32,7 +32,8 @@ public:
                 
                 mmap.erase(arr[j]);
             }
+            steps++;
         }
-        return steps-1;
+        return steps;
     }
 };
