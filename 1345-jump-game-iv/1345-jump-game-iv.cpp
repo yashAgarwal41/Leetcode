@@ -1,6 +1,6 @@
 class Solution {
 public:
-    //BFS
+    //BFS, TC-O(n)
     int minJumps(vector<int>& arr) {
         int n = arr.size();
         unordered_map<int, vector<int>> mmap;
