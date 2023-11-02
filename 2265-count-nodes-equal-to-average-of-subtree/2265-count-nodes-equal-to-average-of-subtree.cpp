@@ -15,16 +15,16 @@ public:
     int ans = 0;
     pair<int, int> dfs(TreeNode* root)
     {
-        if(root == NULL)    return pair<int, int> {0, 0};
+        if(root == NULL)    return {0, 0};
         
-        pair<int, int> p1 = dfs(root->left);
-        pair<int, int> p2 = dfs(root->right);
+        auto p1 = dfs(root->left);
+        auto p2 = dfs(root->right);
         int totSum = p1.first + p2.first + root->val;
         int totCnt = p1.second + p2.second + 1;
         int avg = totSum/totCnt;
         if(avg == root->val)    ans++;
         
-        return pair<int, int> {totSum, totCnt};
+        return {totSum, totCnt};
     }
     int averageOfSubtree(TreeNode* root) {
         dfs(root);
